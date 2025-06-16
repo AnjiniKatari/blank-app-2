@@ -19,7 +19,7 @@ st.set_page_config(
 
 ## Step 01 - Setup
 st.sidebar.title("California - Real Estate Agency 🏡")
-page = st.sidebar.selectbox("Select Page",["Introduction 📘","Visualization 📊", "Automated Report 📑","Prediction"])
+page = st.sidebar.selectbox("Select Page",["reg code","Visualization 📊", "Automated Report 📑","Prediction"])
 
 
 #st.video("video.mp4")
@@ -33,26 +33,11 @@ df = pd.read_csv("housing.csv")
 
 
 ## Step 02 - Load dataset
-if page == "Introduction 📘":
+if page == "reg code":
 
-    st.subheader("01 Introduction 📘")
+    st.subheader(" Linear Regression Code ")
 
-    st.markdown("##### Data Preview")
-    rows = st.slider("Select a number of rows to display",5,20,5)
-    st.dataframe(df.head(rows))
-
-    st.markdown("##### Missing values")
-    missing = df.isnull().sum()
-    st.write(missing)
-
-    if missing.sum() == 0:
-        st.success("✅ No missing values found")
-    else:
-        st.warning("⚠️ you have missing values")
-
-    st.markdown("##### 📈 Summary Statistics")
-    if st.button("Show Describe Table"):
-        st.dataframe(df.describe())
+    
 
 elif page == "Visualization 📊":
 
