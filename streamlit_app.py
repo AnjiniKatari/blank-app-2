@@ -7,8 +7,8 @@ import streamlit as st
 import numpy as np
 import sklearn as skl
 
-from ydata_profiling import ProfileReport
-from streamlit_pandas_profiling import st_profile_report
+# from ydata_profiling import ProfileReport
+# from streamlit_pandas_profiling import st_profile_report
 
 st.set_page_config(
     page_title="Student Scores Analysis",
@@ -104,6 +104,7 @@ elif page == "Prediction":
 
     # ### removing missing values 
     df2 = df2.dropna()
+    df2 = df2.drop(columns=['first_name', 'last_name', 'email', 'id', 'math_score', 'english_score', 'physics_score', 'chemistry_score', 'biology_score', 'history_score', 'geography_score'])
 
     # ### Label Encoder to change text categories into number categories
     from sklearn.preprocessing import LabelEncoder
@@ -123,8 +124,8 @@ elif page == "Prediction":
 
     # ### i) X and y
     X = df2[features_selection]
-    df2["total_score"] = df2["math_score"]+df2["biology_score"]+df2["english_score"]+df2["history_score"]+df2["physics_score"]+df2["chemistry_score"]+df2["geography_score"]
-    y = df2['total_score']
+    df2["average_score"] = df[score_columns].mean(axis=1).round(0)
+    y = df2['average_score']
 
     st.dataframe(X.head())
     st.dataframe(y.head())
@@ -158,7 +159,8 @@ elif page == "Prediction":
         r2 = metrics.r2_score(y_test, predictions)
         st.write(f"- **R2** {r2:,.3f}")
 
-    st.success(f"My model performance is of ${np.round(mae,2)}")
+    st.success(f"My model performance is of {np.round(mae,2)}")
+
 
     fig, ax = plt.subplots()
     ax.scatter(y_test,predictions,alpha=0.5)
