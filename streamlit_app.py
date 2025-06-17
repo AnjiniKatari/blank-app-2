@@ -45,7 +45,7 @@ if page == "About the Data":
     st.write("For the sake of this project, we add a column that computes the total average score for each student. This was acheived by " \
     "adding the scores for each subject (of which there are 7) and divided by 7.")
     
-    st.write("For the Linear Regression, the total score was computed and predicted, as opposed to the student's indivdual average.")
+    st.write("For the Linear Regression, the average score was computed and predicted as well.git ")
     
 
 elif page == "Visualization 📊":
