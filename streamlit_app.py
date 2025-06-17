@@ -7,8 +7,8 @@ import streamlit as st
 import numpy as np
 import sklearn as skl
 
-# from ydata_profiling import ProfileReport
-# from streamlit_pandas_profiling import st_profile_report
+from ydata_profiling import ProfileReport
+from streamlit_pandas_profiling import st_profile_report
 
 st.set_page_config(
     page_title="Student Scores Analysis",
@@ -19,6 +19,7 @@ st.set_page_config(
 ## Step 01 - Setup
 st.sidebar.title("Student Scores Analysis")
 page = st.sidebar.selectbox("Select Page",["About the Data","Visualization 📊", "Automated Report 📑","Prediction"])
+st.image("schoolpic.jpg")
 
 
 
