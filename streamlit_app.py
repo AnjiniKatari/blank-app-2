@@ -81,7 +81,7 @@ elif page == "Automated Report 📑":
 
 elif page == "Prediction":
     st.subheader("04 Prediction with Linear Regression")
-    # df2 = pd.read_csv("housing.csv")
+    # df2 = pd.read_csv("studentscores.csv")
     # ## Data Preprocessing
 
     # ### removing missing values 
@@ -91,17 +91,21 @@ elif page == "Prediction":
     # from sklearn.preprocessing import LabelEncoder
     # le = LabelEncoder()
 
-    # df2["ocean_proximity"] = le.fit_transform(df2["ocean_proximity"])
+    # df2["gender"] = le.fit_transform(df2["gender"])
+    # df2["part_time_job"] = le.fit_transform(df2["part_time_job"])
+    # df2["extracurricular_activities"] = le.fit_transform(df2["extracurricular_activities"])
+    # df2["career_aspiration"] = le.fit_transform(df2["career_aspiration"])
+
+
 
     # list_var = list(df2.columns)
 
     # features_selection = st.sidebar.multiselect("Select Features (X)",list_var,default=list_var)
-    # target_selection  = st.sidebar.selectbox("Select target variable (Y))",list_var)
     # selected_metrics = st.sidebar.multiselect("Metrics to display", ["Mean Squared Error (MSE)","Mean Absolute Error (MAE)","R² Score"],default=["Mean Absolute Error (MAE)"])
 
     # ### i) X and y
     # X = df2[features_selection]
-    # y = df2[target_selection]
+    # y = df2['total_score']
 
     # st.dataframe(X.head())
     # st.dataframe(y.head())
