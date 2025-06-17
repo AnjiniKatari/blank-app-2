@@ -104,16 +104,16 @@ elif page == "Prediction":
 
     # ### removing missing values 
     df2 = df2.dropna()
-    df2 = df2.drop(columns=['first_name', 'last_name', 'email', 'id', 'math_score', 'english_score', 'physics_score', 'chemistry_score', 'biology_score', 'history_score', 'geography_score'])
+    df2 = df2.drop(columns=['first_name', 'last_name', 'email', 'id', 'math_score', 'english_score', 'physics_score', 'chemistry_score', 'biology_score', 'history_score', 'geography_score', 'gender', 'career_aspiration'])
 
     # ### Label Encoder to change text categories into number categories
     from sklearn.preprocessing import LabelEncoder
     le = LabelEncoder()
 
-    df2["gender"] = le.fit_transform(df2["gender"])
-    df2["part_time_job"] = le.fit_transform(df2["part_time_job"])
-    df2["extracurricular_activities"] = le.fit_transform(df2["extracurricular_activities"])
-    df2["career_aspiration"] = le.fit_transform(df2["career_aspiration"])
+    #df2["gender"] = le.fit_transform(df2["gender"])
+    #df2["part_time_job"] = le.fit_transform(df2["part_time_job"])
+    #df2["extracurricular_activities"] = le.fit_transform(df2["extracurricular_activities"])
+    #df2["career_aspiration"] = le.fit_transform(df2["career_aspiration"])
 
 
 
