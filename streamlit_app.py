@@ -11,38 +11,42 @@ import sklearn as skl
 from streamlit_pandas_profiling import st_profile_report
 
 st.set_page_config(
-    page_title="Califronia Housing Dashboard 🏡",
+    page_title="Student Scores Analysis",
     layout="centered",
-    page_icon="🏡",
 )
 
 
 ## Step 01 - Setup
-st.sidebar.title("California - Real Estate Agency 🏡")
-page = st.sidebar.selectbox("Select Page",["reg code","Visualization 📊", "Automated Report 📑","Prediction"])
+st.sidebar.title("Student Scores Analysis")
+page = st.sidebar.selectbox("Select Page",["About the Data","Visualization 📊", "Automated Report 📑","Prediction"])
 
 
-#st.video("video.mp4")
 
-st.image("house2.png")
+# st.image("house2.png")
 
 st.write("   ")
 st.write("   ")
 st.write("   ")
-df = pd.read_csv("housing.csv")
+df = pd.read_csv("student-scores.csv")
 
 
 ## Step 02 - Load dataset
-if page == "reg code":
+if page == "About the Data":
 
-    st.subheader(" Linear Regression Code ")
+    st.subheader(" About the Data ")
+    st.write("This data is comprised of 17 factors: Student ID, First name, Last name, email, " \
+    "gender, whether the student has a part time job, how many absences they have, if they do " \
+    "extra cirriculars, how many hours they study at home, what their career aspirations are, and " \
+    "scores for the following subjects: math, hitsory, english, geography, physics, chemistry and " \
+    "biology. ")
 
+    st.write("For the sake of this project, we add a column that computes the total score for each student. ")
     
 
 elif page == "Visualization 📊":
 
     ## Step 03 - Data Viz
-    st.subheader("02 Data Viz")
+    st.subheader("Visualizing the Data")
 
     # col_x = st.selectbox("Select X-axis variable",df.columns,index=0)
     # col_y = st.selectbox("Select Y-axis variable",df.columns,index=1)
@@ -81,34 +85,34 @@ elif page == "Automated Report 📑":
 
 elif page == "Prediction":
     st.subheader("04 Prediction with Linear Regression")
-    # df2 = pd.read_csv("studentscores.csv")
+    df2 = pd.read_csv("student-scores.csv")
     # ## Data Preprocessing
 
     # ### removing missing values 
-    # df2 = df2.dropna()
+    df2 = df2.dropna()
 
     # ### Label Encoder to change text categories into number categories
-    # from sklearn.preprocessing import LabelEncoder
-    # le = LabelEncoder()
+    from sklearn.preprocessing import LabelEncoder
+    le = LabelEncoder()
 
-    # df2["gender"] = le.fit_transform(df2["gender"])
-    # df2["part_time_job"] = le.fit_transform(df2["part_time_job"])
-    # df2["extracurricular_activities"] = le.fit_transform(df2["extracurricular_activities"])
-    # df2["career_aspiration"] = le.fit_transform(df2["career_aspiration"])
+    df2["gender"] = le.fit_transform(df2["gender"])
+    df2["part_time_job"] = le.fit_transform(df2["part_time_job"])
+    df2["extracurricular_activities"] = le.fit_transform(df2["extracurricular_activities"])
+    df2["career_aspiration"] = le.fit_transform(df2["career_aspiration"])
 
 
 
-    # list_var = list(df2.columns)
+    list_var = list(df2.columns)
 
-    # features_selection = st.sidebar.multiselect("Select Features (X)",list_var,default=list_var)
-    # selected_metrics = st.sidebar.multiselect("Metrics to display", ["Mean Squared Error (MSE)","Mean Absolute Error (MAE)","R² Score"],default=["Mean Absolute Error (MAE)"])
+    features_selection = st.sidebar.multiselect("Select Features (X)",list_var,default=list_var)
+    selected_metrics = st.sidebar.multiselect("Metrics to display", ["Mean Squared Error (MSE)","Mean Absolute Error (MAE)","R² Score"],default=["Mean Absolute Error (MAE)"])
 
     # ### i) X and y
-    # X = df2[features_selection]
-    # y = df2['total_score']
+    X = df2[features_selection]
+    y = df2['total_score']
 
-    # st.dataframe(X.head())
-    # st.dataframe(y.head())
+    st.dataframe(X.head())
+    st.dataframe(y.head())
 
     ### ii) train_test_split
     # from sklearn.model_selection import train_test_split
