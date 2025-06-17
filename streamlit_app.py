@@ -7,7 +7,7 @@ import streamlit as st
 import numpy as np
 import sklearn as skl
 
-# from ydata_profiling import ProfileReport
+from ydata_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 
 st.set_page_config(
@@ -47,40 +47,49 @@ elif page == "Visualization 📊":
 
     ## Step 03 - Data Viz
     st.subheader("Visualizing the Data")
+    filtds = df.drop(columns=["id", "first_name", "last_name", "email"])
+    scores = df.drop(columns=["id", "first_name", "last_name", "email", "gender", "absence_days", "weekly_self_study_hours", "extracurricular_activities", "career_aspiration", "part_time_job"])
 
-    # col_x = st.selectbox("Select X-axis variable",df.columns,index=0)
-    # col_y = st.selectbox("Select Y-axis variable",df.columns,index=1)
+    col_x = st.selectbox("Select X-axis variable (group by)", filtds.columns)
+    col_y = st.selectbox("Select Y-axis variable (numeric)", scores.columns)
 
-    # tab1, tab2, tab3 = st.tabs(["Bar Chart 📊","Line Chart 📈","Correlation Heatmap 🔥"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Box plot", "Bar Chart 📊","Line Chart 📈","Correlation Heatmap 🔥",])
 
     with tab1:
-        st.subheader("Bar Chart")
-        # st.bar_chart(df[[col_x,col_y]].sort_values(by=col_x),use_container_width=True)
+        st.subheader("Box plot")
+        fig, ax = plt.subplots()
+        sns.boxplot(data=df, x=col_x, y=col_y, ax=ax)
+        ax.set_title(f"{col_y} by {col_x}")
+        st.pyplot(fig)
 
     with tab2:
-        st.subheader("Line Chart")
-        # st.line_chart(df[[col_x,col_y]].sort_values(by=col_x),use_container_width=True)
-
+        st.subheader("Bar Chart")
+        st.bar_chart(df[[col_x,col_y]].sort_values(by=col_x),use_container_width=True)
 
     with tab3:
-        st.subheader("Correlation Matrix")
-        # df_numeric = df.select_dtypes(include=np.number)
+        st.subheader("Line Chart")
+        st.line_chart(df[[col_x,col_y]].sort_values(by=col_x),use_container_width=True)
 
-        # fig_corr, ax_corr = plt.subplots(figsize=(18,14))
+
+    with tab4:
+        st.subheader("Correlation Matrix")
+        df_numeric = df.select_dtypes(include=np.number)
+
+        fig_corr, ax_corr = plt.subplots(figsize=(18,14))
         # # create the plot, in this case with seaborn 
-        # sns.heatmap(df_numeric.corr(),annot=True,fmt=".2f",cmap='coolwarm')
+        sns.heatmap(df_numeric.corr(),annot=True,fmt=".2f",cmap='coolwarm')
         # ## render the plot in streamlit 
-        # st.pyplot(fig_corr)
+        st.pyplot(fig_corr)
 
 elif page == "Automated Report 📑":
     st.subheader("03 Automated Report")
-    # if st.button("Generate Report"):
-    #     with st.spinner("Generating report..."):
-    #         profile = ProfileReport(df,title="California Housing Report",explorative=True,minimal=True)
-    #         st_profile_report(profile)
+    if st.button("Generate Report"):
+        with st.spinner("Generating report..."):
+            profile = ProfileReport(df,title="California Housing Report",explorative=True,minimal=True)
+            st_profile_report(profile)
 
-    #     export = profile.to_html()
-    #     st.download_button(label="📥 Download full Report",data=export,file_name="california_housing_report.html",mime='text/html')
+        export = profile.to_html()
+        st.download_button(label="📥 Download full Report",data=export,file_name="california_housing_report.html",mime='text/html')
 
 
 elif page == "Prediction":
