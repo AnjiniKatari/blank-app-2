@@ -28,6 +28,8 @@ st.write("   ")
 st.write("   ")
 st.write("   ")
 df = pd.read_csv("student-scores.csv")
+score_columns = ["math_score", "biology_score", "english_score", "history_score", "physics_score", "chemistry_score", "geography_score"]
+df["average_score"] = df[score_columns].mean(axis=1).round(0)
 
 
 ## Step 02 - Load dataset
@@ -40,7 +42,10 @@ if page == "About the Data":
     "scores for the following subjects: math, hitsory, english, geography, physics, chemistry and " \
     "biology. ")
 
-    st.write("For the sake of this project, we add a column that computes the total score for each student. ")
+    st.write("For the sake of this project, we add a column that computes the total average score for each student. This was acheived by " \
+    "adding the scores for each subject (of which there are 7) and divided by 7.")
+    
+    st.write("For the Linear Regression, the total score was computed and predicted, as opposed to the student's indivdual average.")
     
 
 elif page == "Visualization 📊":
@@ -118,47 +123,48 @@ elif page == "Prediction":
 
     # ### i) X and y
     X = df2[features_selection]
+    df2["total_score"] = df2["math_score"]+df2["biology_score"]+df2["english_score"]+df2["history_score"]+df2["physics_score"]+df2["chemistry_score"]+df2["geography_score"]
     y = df2['total_score']
 
     st.dataframe(X.head())
     st.dataframe(y.head())
 
     ### ii) train_test_split
-    # from sklearn.model_selection import train_test_split
-    # X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2)
+    from sklearn.model_selection import train_test_split
+    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2)
 
 
     # ## Model 
 
     # ### i) Definition model
-    # from sklearn.linear_model import LinearRegression
-    # model = LinearRegression()
+    from sklearn.linear_model import LinearRegression
+    model = LinearRegression()
 
     # ### ii) Training model
-    # model.fit(X_train,y_train)
+    model.fit(X_train,y_train)
 
     # ### iii) Prediction
-    # predictions = model.predict(X_test)
+    predictions = model.predict(X_test)
 
     # ### iv) Evaluation 
-    # from sklearn import metrics 
-    # if "Mean Squared Error (MSE)" in selected_metrics:
-    #     mse = metrics.mean_squared_error(y_test, predictions)
-    #     st.write(f"- **MSE** {mse:,.2f}")
-    # if "Mean Absolute Error (MAE)" in selected_metrics:
-    #     mae = metrics.mean_absolute_error(y_test, predictions)
-    #     st.write(f"- **MAE** {mae:,.2f}")
-    # if "R² Score" in selected_metrics:
-    #     r2 = metrics.r2_score(y_test, predictions)
-    #     st.write(f"- **R2** {r2:,.3f}")
+    from sklearn import metrics 
+    if "Mean Squared Error (MSE)" in selected_metrics:
+        mse = metrics.mean_squared_error(y_test, predictions)
+        st.write(f"- **MSE** {mse:,.2f}")
+    if "Mean Absolute Error (MAE)" in selected_metrics:
+        mae = metrics.mean_absolute_error(y_test, predictions)
+        st.write(f"- **MAE** {mae:,.2f}")
+    if "R² Score" in selected_metrics:
+        r2 = metrics.r2_score(y_test, predictions)
+        st.write(f"- **R2** {r2:,.3f}")
 
-    # st.success(f"My model performance is of ${np.round(mae,2)}")
+    st.success(f"My model performance is of ${np.round(mae,2)}")
 
-    # fig, ax = plt.subplots()
-    # ax.scatter(y_test,predictions,alpha=0.5)
-    # ax.plot([y_test.min(),y_test.max()],
-    #        [y_test.min(),y_test.max() ],"--r",linewidth=2)
-    # ax.set_xlabel("Actual")
-    # ax.set_xlabel("Predicted")
-    # ax.set_title("Actual vs Predicted")
-    # st.pyplot(fig)
+    fig, ax = plt.subplots()
+    ax.scatter(y_test,predictions,alpha=0.5)
+    ax.plot([y_test.min(),y_test.max()],
+           [y_test.min(),y_test.max() ],"--r",linewidth=2)
+    ax.set_xlabel("Actual")
+    ax.set_xlabel("Predicted")
+    ax.set_title("Actual vs Predicted")
+    st.pyplot(fig)
